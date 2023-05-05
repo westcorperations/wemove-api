@@ -10,6 +10,7 @@ use App\Http\Traits\HttpResponseTrait;
 use Illuminate\Http\Request;
 use App\Models\User;
 use App\Models\Google;
+use App\Models\Roles;
 use Illuminate\Support\Facades\Hash;
 use Laravel\Socialite\Facades\Socialite;
 use Illuminate\Http\JsonResponse;
@@ -75,8 +76,16 @@ class AuthController extends Controller
             'email' => $request->email,
             'password' => Hash::make($request->password),
         ]);
+        if($user){
+            $role  = Roles::create([
+                'user_id' => $user->id,
+                'role' => 'user',
+            ]);
+        }
+
         return $this->success([
             'user' => $user,
+            'message'=>"user created successfully",
             'token' => $user->createToken('API Token Of' . $user->email)->plainTextToken
         ]);
         // return 'hi';

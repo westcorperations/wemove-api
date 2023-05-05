@@ -14,7 +14,7 @@ trait HttpResponseTrait
      * @param int $statusCode
      * @return JsonResponse
      */
-    protected function success(array $data, $statusCode = 200): JsonResponse
+    protected function success(array $data,  $statusCode = 200): JsonResponse
     {
         return response()->json(['success' => true, 'data' => $data], $statusCode);
     }
@@ -71,7 +71,9 @@ trait HttpResponseTrait
 
         return $this->success([
             'user' => $user,
+            'role' =>$user->roles->role,
             'token' => $token,
+            'message' => "Login successful"
         ]);
     }
 }
