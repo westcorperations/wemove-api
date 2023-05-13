@@ -4,7 +4,7 @@ namespace App\Http\Requests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class StoreCarsRequest extends FormRequest
+class PaymentRequest extends FormRequest
 {
     /**
      * Determine if the user is authorized to make this request.
@@ -23,15 +23,7 @@ class StoreCarsRequest extends FormRequest
     {
         return [
             //
-            "name" => ["required","string"],
-            "image" => ["required","image","max:2048","mimes:png,jpg,svg,jpeg"],
-            "category_id" => ["required","integer"],
-            "seat_no" => ["required","integer"],
-            "brand" => ["required","string"],
-            "model" => ["required","string"],
-            "price" => ["required","integer"],
-            "status" => ["integer"],
-
+            'reference' => ['required']
         ];
     }
 }

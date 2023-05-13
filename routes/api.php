@@ -1,9 +1,10 @@
 <?php
 
 use App\Http\Controllers\AuthController;
-use App\Http\Controllers\BusController;
 use App\Http\Controllers\CarCategoryController;
+use App\Http\Controllers\PaymentController;
 use App\Http\Controllers\CarController;
+use App\Http\Controllers\CarBookingController;
 use App\Http\Controllers\CarSeatController;
 use Illuminate\Support\Facades\Route;
 
@@ -20,18 +21,23 @@ use Illuminate\Support\Facades\Route;
 */
 //// Auth routes
 Route::middleware('auth:sanctum')->group(function () {
+    Route::resource('/booking', CarBookingController::class)->only('store');
+    Route::post('/payment/confirm',[CarBookingController::class, 'confirmPayment']);
+
 });
 // admin route
 Route::middleware(['auth:sanctum', 'admin'])->group(function () {
     Route::resource('/category', CarCategoryController::class)->except(['index', 'show',  'edit',]);
     Route::resource('/cars', CarController::class)->except(['index', 'show',  'edit',]);
     Route::resource('/seat', CarSeatController::class)->except(['index', 'show',  'edit',]);
+    Route::resource('/booking', CarBookingController::class)->only('index');
 });
 // normal route
 Route::resource('/category', CarCategoryController::class)->only(['index', 'show',]);
 Route::resource('/cars', CarController::class)->only(['index', 'show',]);
 Route::resource('/seat', CarSeatController::class)->only(['index', 'show',]);
 Route::get('/car/seats/{carid}', [CarController::class, 'allSeats']);
+
 
 Route::group(['prefix' => 'auth'], function () {
     Route::get('google', [AuthController::class, 'redirectToGoogle']);

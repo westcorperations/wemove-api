@@ -4,8 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests\StoreCarsRequest;
 use App\Http\Traits\HttpResponseTrait;
+use App\Models\CarImage;
 use App\Models\Cars;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
 
 class CarController extends Controller
 {
@@ -19,9 +21,8 @@ class CarController extends Controller
         $cars = Cars::paginate('10');
         return $this->success([
             'all_cars' => $cars,
-            'message'=>"All Cars Fetched Successfully",
+            'message' => "All Cars Fetched Successfully",
         ]);
-
     }
 
 
@@ -34,20 +35,42 @@ class CarController extends Controller
     {
         //
         $request->validated($request->all());
+        DB::beginTransaction();
+        try {
+            $car = Cars::create([
+                "name" => $request->name,
+                "category_id" => $request->category_id,
+                "seat_no" => $request->seat_no,
+                "brand" => $request->brand,
+                "model" => $request->model,
+                "price" => $request->price,
+                "status" => 0,
+            ]);
+            if ($request->hasFile('image')) {
+                $imageFile = $request->file('image');
+                $imagePath = $imageFile->store('public/images'); // Save the image to the "public/images" directory
 
-        $car = Cars::create([
-            "name" => $request->name,
-            "category_id"=>$request->category_id,
-            "seat_no"=>$request->seat_no,
-            "brand"=>$request->brand,
-            "model"=>$request->model,
-            "price"=>$request->price,
-            "status"=>0,
-        ]);
-        return $this->success([
-            'car' => $car,
-            'message' => "Car"." "."$car->name"." "."created successfully",
-        ]);
+                // Save the image path to the database
+                $image = new CarImage();
+                $image->path = $imagePath;
+                $image->car_id = $car->id;
+                $image->save();
+
+                // return response()->json(['message' => 'Image uploaded successfully']);
+            }
+            DB::commit();
+            return $this->success([
+                'car' => $car,
+                'carImage' => $image,
+                'message' => "Car" . " " . "$car->name" . " " . "created successfully",
+            ]);
+        } catch (\Exception $e) {
+            DB::rollBack();
+            return response()->json([
+                'success' => false,
+                'message' => $e->getMessage(),
+            ], 500);
+        }
     }
 
     /**
@@ -58,9 +81,8 @@ class CarController extends Controller
         $car = Cars::findOrFail($id);
         return $this->success([
             "car" => $car,
-            "message" => "Car"." ".$car->name
+            "message" => "Car" . " " . $car->name
         ]);
-
     }
     /**
      * Display the specified resource.
@@ -71,9 +93,8 @@ class CarController extends Controller
         $seats = $car->seats;
         return $this->success([
             "All car Seats" => $seats,
-            "message" => "All Car seats for"." ".$car->name." "."fetched successfull"
+            "message" => "All Car seats for" . " " . $car->name . " " . "fetched successfull"
         ]);
-
     }
 
 
@@ -98,8 +119,6 @@ class CarController extends Controller
             'car' => $car,
             'meassage' => "Car Updated successfully"
         ]);
-
-
     }
 
     /**
