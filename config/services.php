@@ -33,7 +33,8 @@ return [
     'google' => [
         'client_id' => env('GOOGLE_CLIENT_ID'),
         'client_secret' => env('GOOGLE_CLIENT_SECRET'),
-        'redirect' => 'http://127.0.0.1:8000/v1/auth/google/callback',
+        // 'redirect' => 'http://127.0.0.1:8000/v1/auth/google/callback',
+        'redirect' => 'https://wemoveapi.up.railway.app/v1/auth/google/callback',
     ],
 
 ];

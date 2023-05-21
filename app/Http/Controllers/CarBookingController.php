@@ -344,64 +344,6 @@ class CarBookingController extends Controller
         }
     }
 
-    // $booking = new Booking();
-    // $booking->user_id = Auth::id();
-    // $booking->car_id = $request->car_id;
-    // $booking->seat_id = $request->seat_id;
-    // $booking->name = $request->name;
-    // $booking->phone = $request->phone;
-    // $booking->departure_city = $request->departure_city;
-    // $booking->arrival_city = $request->arrival_city;
-    // $booking->kilometer = $request->kilometer;
-    // $booking->date = $request->date;
-    // $total_price = $car->price * $request->kilometer;
-    // $booking->total_price = $total_price;
-    // $booking->save();
-
-    // $payment = new payment();
-    // $payment->user_id =  $booking->user_id;
-    // $payment->booking_id = $booking->id;
-    // $payment->status = "pending";
-    // $payment->booking_no = 'WMV' . $booking->id  . random_int(100000, 999999999999);
-
-
-    // $booking->save();
-
-    // $carSeat = CarSeat::where('car_id', $request->car_id)
-    //     ->where('id', $request->seat_id)
-    //     ->where('status', 0)
-    //     ->firstOrFail();
-    // $carSeat->status = 1;
-    // $carSeat->save();
-    // $request->merge([
-    //     "first_name" => Auth::user()->name,
-    //     "amount" => $total_price * 100,
-    //     "reference" => paystack()->genTranxRef(),
-    //     "email" => Auth::user()->email,
-    //     "phone"=> Auth::user()->phone,
-    //     "currency" => "NGN",
-    //     "orderID" => 'LCH' . Auth::user()->id . random_int(100000, 999999999999),
-    //     "description" => 'payment for products',
-    //     // 'callback_url'=>route('payment/callback'),
-
-
-
-    // ]);
-    //         DB::commit();
-
-    //         return $this->success([
-
-    //             'message' => 'Booking created successfully',
-    //             'data' => $booking,
-    //         ]);
-    //     } catch (\Exception $e) {
-    //         DB::rollback();
-
-    //         return response()->json([
-    //             'success' => false,
-    //             'message' => $e->getMessage(),
-    //         ], 500);
-    //     }
 
 
 
