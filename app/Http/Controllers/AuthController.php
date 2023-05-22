@@ -70,9 +70,7 @@ class AuthController extends Controller
 
                 // Generate an API token for the user and return it to the client
                 $token = $newUser->createToken('API Token')->plainTextToken;
-                header('Access-Control-Allow-Origin: http://127.0.0.1:5173');
-                 header('Access-Control-Allow-Methods: GET, POST');
-                header('Access-Control-Allow-Headers: Origin, Content-Type, X-Requested-With, Authorization');
+                
                 return $this->success([
                     'token' => $token,
                     'data'=>$newUser->email
