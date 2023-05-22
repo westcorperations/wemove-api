@@ -28,9 +28,9 @@ class AuthController extends Controller
             return Socialite::driver('google')->stateless()->redirect();
         }
 
-        public function handleGoogleCallback(Request $request)
+        public function handleGoogleCallback($provider)
         {
-            $user = Socialite::driver('google')->stateless()->user();
+            $user = Socialite::driver($provider)->stateless()->user();
 
             // Check if the user already exists in the database
             $existingUser = User::where('email', $user->email)->first();
