@@ -42,7 +42,7 @@ Route::get('/car/seats/{carid}', [CarController::class, 'allSeats']);
 
 Route::group(['prefix' => 'auth'], function () {
     Route::get('google', [AuthController::class, 'redirectToGoogle']);
-    Route::get('/google/callback', [AuthController::class, 'handleGoogleCallback']);
+    Route::post('/google/callback', [AuthController::class, 'handleGoogleCallback']);
     Route::post('/register', [AuthController::class, 'register']);
     Route::post('/login', [AuthController::class, 'login']);
 });
