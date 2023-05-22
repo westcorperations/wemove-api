@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\StoreUserRequest;
 use App\Http\Requests\LoginUserRequest;
+use App\Http\Requests\GoogleTokenRequest;
 
 use App\Http\Traits\HttpResponseTrait;
 
@@ -28,9 +29,12 @@ class AuthController extends Controller
             return Socialite::driver('google')->stateless()->redirect();
         }
 
-        public function handleGoogleCallback($provider)
+        public function handleGoogleCallback(GoogleTokenRequest $request)
         {
-            $user = Socialite::driver($provider)->stateless()->user();
+            // $user = Socialite::driver('google')->stateless()->user();
+            $request->validated($request->all());
+            try{
+            $user = Socialite::driver('google')->userFromToken($request->idToken);
 
             // Check if the user already exists in the database
             $existingUser = User::where('email', $user->email)->first();
@@ -71,6 +75,12 @@ class AuthController extends Controller
                     'data'=>$newUser->email
                 ]);
             }
+        }catch(\Exception $e){
+            return response()->json([
+                'error' => 'Failed to retrieve user details',
+                'message'=>$e->getMessage()
+        ], 500);
+        }
         }
 
 
