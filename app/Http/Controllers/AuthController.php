@@ -41,7 +41,10 @@ class AuthController extends Controller
 
                 // Generate an API token for the user and return it to the client
                 $token = $existingUser->createToken('API Token')->plainTextToken;
-                return response()->json(['token' => $token]);
+                return $this->success([
+                    'token' => $token,
+                    'data'=>$existingUser->email
+                           ]);
             } else {
                 // Create a new user in the database
                 $newUser = User::create([
@@ -63,7 +66,10 @@ class AuthController extends Controller
 
                 // Generate an API token for the user and return it to the client
                 $token = $newUser->createToken('API Token')->plainTextToken;
-                return response()->json(['token' => $token]);
+                return $this->success([
+                    'token' => $token,
+                    'data'=>$newUser->email
+                ]);
             }
         }
 
