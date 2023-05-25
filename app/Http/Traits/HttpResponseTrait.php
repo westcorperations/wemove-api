@@ -38,7 +38,7 @@ trait HttpResponseTrait
      * @param int $statusCode
      * @return JsonResponse
      */
-    protected function authError($message = 'Unauthorized', $statusCode = 401): JsonResponse
+    protected function authError($message = 'incorrect credentials', $statusCode = 401): JsonResponse
     {
         return response()->json(['success' => false, 'error' => $message], $statusCode);
     }

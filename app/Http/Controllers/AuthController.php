@@ -70,7 +70,7 @@ class AuthController extends Controller
 
                 // Generate an API token for the user and return it to the client
                 $token = $newUser->createToken('API Token')->plainTextToken;
-                
+
                 return $this->success([
                     'token' => $token,
                     'data'=>$newUser->email

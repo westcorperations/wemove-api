@@ -20,7 +20,7 @@ use Illuminate\Support\Facades\Route;
 |
 */
 //// Auth routes
-Route::group(['middleware' => 'cors'], function () {
+// Route::group(['middleware' => 'cors'], function () {
 Route::middleware('auth:sanctum')->group(function () {
     Route::resource('/booking', CarBookingController::class)->only('store');
     Route::post('/payment/confirm',[CarBookingController::class, 'confirmPayment']);
@@ -46,4 +46,4 @@ Route::group(['prefix' => 'auth'], function () {
     Route::post('/register', [AuthController::class, 'register']);
     Route::post('/login', [AuthController::class, 'login']);
 });
-});
+// });
